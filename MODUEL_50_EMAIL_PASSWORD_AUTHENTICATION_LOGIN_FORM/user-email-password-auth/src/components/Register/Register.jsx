@@ -1,9 +1,10 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import auth from "../../firebase/firebase.config";
 import { useState } from "react";
 
 /** import password icon */
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const Register = () => {
     /** state for not error */
@@ -16,10 +17,11 @@ const Register = () => {
 
     const handleRegister = (e) => {
         e.preventDefault();
+        const name = e.target.name.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
         const accepted = e.target.terms.checked;
-        console.log(email, password, accepted);
+        console.log(name, email, password, accepted);
 
         /** reset error */
         setRegisterError('');
@@ -34,7 +36,7 @@ const Register = () => {
             setRegisterError('Your password should have at least one upper case characters');
             return;
         }
-        else if(!accepted) {
+        else if (!accepted) {
             setRegisterError('Please accept our terms and conditions')
             return;
         }
@@ -44,6 +46,23 @@ const Register = () => {
             .then(result => {
                 console.log(result.user);
                 setSuccess('User Created Successfully');
+
+
+
+                /** update profile */
+                updateProfile(result.user, {
+                    displayName: name,
+                    photoURL: "https://example.com/jane-q-user/profile.jpg"
+                })
+                .then( () => console.log('profile updated'))
+
+
+
+                /** send verification email */
+                sendEmailVerification(result.user)
+                .then( () => {
+                    alert('Please check your email and verify your account');
+                })
             })
             .catch(error => {
                 console.error(error);
@@ -58,6 +77,14 @@ const Register = () => {
             <div className="mx-auto md:w-1/2">
                 <h2 className="w-3/4 text-3xl mb-8 text-center">Please Register</h2>
                 <form onSubmit={handleRegister}>
+                    <input
+                        className="mb-4 w-full bg-slate-100 py-2 px-4 rounded-lg"
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder="Your Name"
+                        required />
+                    <br />
                     <input
                         className="mb-4 w-full bg-slate-100 py-2 px-4 rounded-lg"
                         type="email"
@@ -78,7 +105,7 @@ const Register = () => {
                             onClick={() => setShowPassword(!showPassword)}
                             className="absolute top-3 right-3">
                             {
-                                showPassword ? <IoMdEyeOff /> : <IoMdEye />
+                                showPassword ? <a href="#"><IoMdEyeOff className="text-2xl" /></a> : <a href="#"><IoMdEye className="text-2xl" /></a>
                             }
                         </span>
                     </div>
@@ -100,6 +127,10 @@ const Register = () => {
                 {
                     registerError && <p className="text-red-700">{registerError}</p>
                 }
+
+
+                {/* send to login page */}
+                <p className="text-center py-5 text-orange-500">Already have an Account? Please <Link to="/login" className="btn ml-3">SIGN IN</Link> </p>
             </div>
         </div>
     );
