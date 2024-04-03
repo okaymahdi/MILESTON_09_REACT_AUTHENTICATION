@@ -5,9 +5,9 @@ import userDefaultPic from '../../../assets/user.png'
 const Navbar = () => {
     /** nav menu */
     const navLinks = <>
-        <li><NavLink to="/">Home</NavLink></li>
-        <li><NavLink to="/about">About</NavLink></li>
-        <li><NavLink to="/career">Career</NavLink></li>
+        <li><NavLink className='font-normal text-lg no-underline text-[#706F6F]' to="/">Home</NavLink></li>
+        <li><NavLink className='font-normal text-lg no-underline text-[#706F6F]' to="/about">About</NavLink></li>
+        <li><NavLink className='font-normal text-lg no-underline text-[#706F6F]' to="/career">Career</NavLink></li>
     </>
 
 
@@ -22,7 +22,6 @@ const Navbar = () => {
                         {navLinks}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl">daisyUI</a>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
@@ -31,7 +30,7 @@ const Navbar = () => {
             </div>
             <div className="navbar-end">
                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                    <div className="w-10 rounded-full">
+                    <div className="w-10 rounded-full mr-3">
                         <img alt="Tailwind CSS Navbar component" src={userDefaultPic} />
                     </div>
                 </div>

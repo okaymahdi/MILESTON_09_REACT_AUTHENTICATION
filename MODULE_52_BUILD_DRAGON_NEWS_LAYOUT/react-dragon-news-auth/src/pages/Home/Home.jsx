@@ -14,7 +14,7 @@ const Home = () => {
 
 
             {/* right & left side navbar */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 justify-between items-center">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 justify-between">
                 <div className="">
                     {/* left side navbar */}
                     <LeftSideNav />
